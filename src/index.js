@@ -1,41 +1,38 @@
-class Sorter {
-  constructor() {
-    this.array = [];
+module.exports =
+ function solveEquation(equation) {
+  var splArray = equation.split(' ');
+  var sign1 = splArray[3];
+  var sign2 = splArray[7];
+  
+
+  var arr =[];
+  var numbers = splArray.filter( index => { 
+    if(!isNaN(+index))  return +index  
+  }) ; 
+
+  let [a,b,c] = numbers;
+  if(sign1 == '-' ) {
+    b = 0-b;
+  }
+  if(sign2 == '-' ) {
+    c = 0-c;
   }
 
-  add(element) {
-    this.array.push(element);
-  }
+  var d =  b * b - (4 * a * c);
+  let x1 = -b / ( 2 * a ) + Math.sqrt( d ) / ( 2 * a );
+  let x2 = -b / ( 2 * a ) - Math.sqrt( d ) / ( 2 * a );
 
-  at(index) {
-    return this.array[index];
-  }
 
-  get length() {
-    return this.array.length;
+  
+  if( x2 > x1) {
+    arr.push(Math.round( x1));
+    arr.push(Math.round( x2));
+  } else {
+    arr.push(Math.round( x2));
+    arr.push(Math.round( x1));
   }
-
-  toArray() {
-    return this.array;
-  }
-
-  userSort( a,b) {
-     return a-b;
-  }
-
-  sort(indices) {
-    var sArray = this.array.filter( (index,key) => indices.indexOf(key) !== -1 ).sort( this.userSort );
-    
-    for( var i=0 ; i < this.array.length  ; i++) {
-      if(indices.indexOf(i) > -1 ) {
-        this.array[i] = sArray.shift();
-      }
-    }
-  }
-
-  setComparator(compareFunction) {
-    this.userSort = compareFunction;
-  }
+ 
+  return arr;
 }
 
-module.exports = Sorter;
+//solveEquation('-175 * x^2 - 397148325 * x + 709028410683600');
