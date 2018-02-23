@@ -1,29 +1,41 @@
-/**
- * @param preferences - an array of integers. Indices of people, whom they love
- * @returns number of love triangles
- */
+class Sorter {
+  constructor() {
+    this.array = [];
+  }
 
-module.exports = 
-function getLoveTrianglesCount(preferences = []) {
-  var counter = 0;
+  add(element) {
+    this.array.push(element);
+  }
 
-  preferences.map( (index,key) => {
-    preferences.map( (index1,key1) => {
-      if( index === key1 + 1 && index !== index1) {
-        preferences.map( (index2, key2) => {
-          if( index1 === key2 + 1 && index2 === key + 1 && index1 !== index2 ) {
-            preferences[key] = 0;
-            preferences[key1] = 0;
-            preferences[key2] = 0;
-            counter++;
-          }
-        })
+  at(index) {
+    return this.array[index];
+  }
+
+  get length() {
+    return this.array.length;
+  }
+
+  toArray() {
+    return this.array;
+  }
+
+  userSort( a,b) {
+     return a-b;
+  }
+
+  sort(indices) {
+    var sArray = this.array.filter( (index,key) => indices.indexOf(key) !== -1 ).sort( this.userSort );
+    
+    for( var i=0 ; i < this.array.length  ; i++) {
+      if(indices.indexOf(i) > -1 ) {
+        this.array[i] = sArray.shift();
       }
-    })
-  });  
+    }
+  }
 
-  return counter;
-};
+  setComparator(compareFunction) {
+    this.userSort = compareFunction;
+  }
+}
 
-
-
+module.exports = Sorter;
